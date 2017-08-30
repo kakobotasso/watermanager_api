@@ -1,9 +1,11 @@
-package main
+package config
 
 import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/kakobotasso/watermanager/handlers"
+	"github.com/kakobotasso/watermanager/models"
 )
 
 type Route struct {
@@ -19,11 +21,17 @@ func NewRouter() *mux.Router {
 
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
+
+		var handler http.Handler
+
+		handler = route.HandlerFunc
+		handler = models.Logger(handler, route.Name)
+
 		router.
 			Methods(route.Method).
 			Path(route.Pattern).
 			Name(route.Name).
-			Handler(route.HandlerFunc)
+			Handler(handler)
 	}
 
 	return router
@@ -34,12 +42,12 @@ var routes = Routes{
 		"HealthCheck",
 		"GET",
 		"/healthcheck",
-		Healthcheck,
+		handlers.Healthcheck,
 	},
 	Route{
 		"Version",
 		"GET",
 		"/version",
-		Version,
+		handlers.Version,
 	},
 }
