@@ -28,4 +28,10 @@ var routes = Routes{
 		"/version",
 		handlers.Version,
 	},
+	Route{
+		"User",
+		"GET",
+		"/user/1",
+		handlers.GetUser,
+	},
 }
