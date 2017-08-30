@@ -25,6 +25,7 @@ Exemplo de resposta:
 Recupera as informações de um usuário
 
 Parâmetros:
+
 | Parâmetro        | Tipo           | Exemplo  |
 | ---------------- |:--------------:| --------:|
 | id               | `int`          | 123      |
