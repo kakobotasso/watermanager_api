@@ -19,7 +19,36 @@ Exemplo de resposta:
 ***
 
 # /v1
-### Condomínios
+### Autenticação
+#### Login [POST /v1/signin]
+Verifica se o usuário e a senha existem no banco de dados e retorna o token de acesso
+
+Parâmetros:
+
+| Parâmetro        | Tipo           | Exemplo  |
+| ---------------- |:--------------:| --------:|
+| username         | `string`       | gopher   |
+| password         | `string`       | 123456   |
+
+Exemplo de resposta de sucesso:
+```json
+{
+    "id": 123,
+    "name": "Gopher",
+    "token": "skjdfihs@#nsdj&jsdnfspai239uwe"
+}
+```
+
+Exemplo de resposta de falha:
+```json
+[
+    {
+        "key": "login_incorrect",
+        "message": "Username or password incorrect"
+    }
+]
+```
+
 ### Usuários
 #### Informações do usuário [GET /v1/user/:id]
 Recupera as informações de um usuário
