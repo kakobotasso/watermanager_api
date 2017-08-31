@@ -3,6 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 
 	"github.com/kakobotasso/watermanager/models"
 )
@@ -18,8 +21,12 @@ func Version(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userId := vars["userId"]
+	id, _ := strconv.Atoi(userId)
+
 	response := models.User{
-		Id:       123,
+		Id:       id,
 		Name:     "Gopher",
 		Email:    "gopher@golang.com",
 		Cpf:      "123.456.789-00",

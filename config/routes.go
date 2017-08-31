@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/kakobotasso/watermanager/handlers"
@@ -11,6 +12,10 @@ type Route struct {
 	Method      string
 	Pattern     string
 	HandlerFunc http.HandlerFunc
+}
+
+func prefix() string {
+	return "/v1"
 }
 
 type Routes []Route
@@ -31,7 +36,7 @@ var routes = Routes{
 	Route{
 		"User",
 		"GET",
-		"/user/1",
+		fmt.Sprintf("%s/user/{userId}", prefix()),
 		handlers.GetUser,
 	},
 }
