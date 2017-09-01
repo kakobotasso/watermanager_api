@@ -50,6 +50,28 @@ Exemplo de resposta de falha:
 ```
 
 ### Usuários
+#### Criação de usuário [POST /v1/user]
+Cria um novo usuário
+
+Parâmetros:
+
+| Parâmetro        | Tipo           | Exemplo               |
+| ---------------- |:--------------:| ---------------------:|
+| name             | `string`       | Gopher                |
+| email            | `string`       | gopher@golang.com     |
+| cpf              | `string`       | 123.456.789-00        |
+| username         | `string`       | gopher                |
+| password         | `string`       | 123456                |
+
+Exemplo de resposta:
+```json
+{
+    "id": 123,
+    "name": "Gopher",
+    "token": "skjdfihs@#nsdj&jsdnfspai239uwe"
+}
+```
+
 #### Informações do usuário [GET /v1/user/:id]
 Recupera as informações de um usuário
 

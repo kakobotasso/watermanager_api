@@ -87,3 +87,33 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(response)
 }
+
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	var user models.User
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+	if err != nil {
+		panic(err)
+	}
+
+	if err := r.Body.Close(); err != nil {
+		panic(err)
+	}
+
+	if err := json.Unmarshal(body, &user); err != nil {
+		w.WriteHeader(http.StatusUnprocessableEntity)
+
+		if err := json.NewEncoder(w).Encode(err); err != nil {
+			panic(err)
+		}
+	}
+
+	response := models.User{
+		Id:    123,
+		Name:  "Gopher",
+		Token: "skjdfihs@#nsdj&jsdnfspai239uwe",
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
+}

@@ -40,6 +40,12 @@ var routes = Routes{
 		handlers.GetUser,
 	},
 	Route{
+		"Create User",
+		"POST",
+		fmt.Sprintf("%s/user", prefix()),
+		handlers.CreateUser,
+	},
+	Route{
 		"SignIn",
 		"POST",
 		fmt.Sprintf("%s/signin", prefix()),
