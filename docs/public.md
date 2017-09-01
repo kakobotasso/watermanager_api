@@ -93,3 +93,37 @@ Exemplo de resposta:
     "token": "skjdfihs@#nsdj&jsdnfspai239uwe"
 }
 ```
+
+### Consumo
+#### Lista de consumo [GET /v1/consumption/:consumption_type]
+Recupera uma lista de com o consumo do usuário
+
+Parâmetros:
+
+| Parâmetro                | Tipo           | Exemplo         |
+| ------------------------ |:--------------:| ---------------:|
+| consumption_type         | `string`       | liter / money   |
+
+Exemplo de resposta de sucesso:
+```json
+[
+    {
+        "id": 1,
+        "liter": "2"
+    },
+    {
+        "id": 2,
+        "liter": "2"
+    }
+]
+```
+
+Exemplo de resposta de falha:
+```json
+[
+    {
+        "key": "invalid_parameter",
+        "message": "Invalid type of consumption"
+    }
+]
+```
