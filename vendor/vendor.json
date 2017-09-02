@@ -1,6 +1,10 @@
 {
 	"comment": "",
 	"ignore": "test",
-	"package": [],
-	"rootPath": "github.com/kakobotasso/watermanager"
+	"package": [
+	],
+	"rootPath": "github.com/kakobotasso/watermanager",
+	"heroku": {
+		"install": [ "github.com/gorilla/mux" ] 
+	}
 }
