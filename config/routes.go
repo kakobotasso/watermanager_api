@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/kakobotasso/watermanager/handlers"
+	"github.com/kakobotasso/watermanager_api/handlers"
 )
 
 type Route struct {
