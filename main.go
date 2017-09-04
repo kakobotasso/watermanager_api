@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/kakobotasso/watermanager/config"
+	"github.com/kakobotasso/watermanager_api/config"
 )
 
 func main() {

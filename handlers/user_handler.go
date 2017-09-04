@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/kakobotasso/watermanager/models"
+	"github.com/kakobotasso/watermanager_api/models"
 )
 
 func GetUser(w http.ResponseWriter, r *http.Request) {

@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/kakobotasso/watermanager/models"
+	"github.com/kakobotasso/watermanager_api/models"
 )
 
 func SignIn(w http.ResponseWriter, r *http.Request) {

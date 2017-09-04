@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/kakobotasso/watermanager/models"
+	"github.com/kakobotasso/watermanager_api/models"
 )
 
 func NewRouter() *mux.Router {

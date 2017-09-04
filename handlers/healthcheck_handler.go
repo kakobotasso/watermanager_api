@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/kakobotasso/watermanager/models"
+	"github.com/kakobotasso/watermanager_api/models"
 )
 
 func Healthcheck(w http.ResponseWriter, r *http.Request) {

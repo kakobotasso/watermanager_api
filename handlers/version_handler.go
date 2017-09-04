@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/kakobotasso/watermanager/models"
+	"github.com/kakobotasso/watermanager_api/models"
 )
 
 func Version(w http.ResponseWriter, r *http.Request) {
