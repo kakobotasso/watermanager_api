@@ -1,0 +1,4 @@
+package: github.com/kakobotasso/watermanager_api
+import:
+- package: github.com/gorilla/mux
+  version: v1.4.0
