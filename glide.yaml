@@ -1,0 +1,9 @@
+package: .
+import:
+- package: github.com/gorilla/mux
+  version: ^1.4.0
+- package: github.com/kakobotasso/watermanager
+  subpackages:
+  - config
+  - handlers
+  - models
