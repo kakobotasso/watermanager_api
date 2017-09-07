@@ -1,14 +1,8 @@
-hash: f3348e971a1f6ea00b79db0f67c685fa96aca98a4ca42ec9d833af8a22c88ddd
-updated: 2017-09-05T00:32:32.006880727-03:00
+hash: 92fa62f72c59eafeb83c7400afd05e76f0755d524d840e803c885b1d2a0b8440
+updated: 2017-09-07T01:28:46.756989325-03:00
 imports:
 - name: github.com/gorilla/context
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/gorilla/mux
   version: bcd8bc72b08df0f70df986b97f95590779502d31
-- name: github.com/kakobotasso/watermanager
-  version: be0186018da0f7bd7af52e866cbec3820e762610
-  subpackages:
-  - config
-  - handlers
-  - models
 testImports: []
