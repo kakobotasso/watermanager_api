@@ -109,11 +109,13 @@ Exemplo de resposta de sucesso:
 [
     {
         "id": 1,
-        "liter": "2"
+        "liter": "2",
+        "month": "09/2017"
     },
     {
         "id": 2,
-        "liter": "2"
+        "liter": "2",
+        "month": "08/2017"
     }
 ]
 ```
