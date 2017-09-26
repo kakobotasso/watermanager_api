@@ -9,8 +9,11 @@ import (
 	"github.com/kakobotasso/watermanager/models"
 )
 
-func SignIn(w http.ResponseWriter, r *http.Request) {
+func (e Env) SignIn(w http.ResponseWriter, r *http.Request) {
 	var user models.User
+	var loginUser models.User
+	var response interface{}
+
 	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
 
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
@@ -30,22 +33,20 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if user.Username == "gopher" && user.Password == "123456" {
-		response := models.User{
-			Id:    123,
-			Name:  "Gopher",
-			Token: "skjdfihs@#nsdj&jsdnfspai239uwe",
-		}
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(response)
-	} else {
-		response := models.Errors{
+	if err := e.DB.Where(models.User{Username: user.Username, Password: user.Password}).First(&loginUser).Error; err != nil {
+		response = models.Errors{
 			models.Error{
 				Key:     "login_incorrect",
 				Message: "Username or password incorrect",
 			},
 		}
 		w.WriteHeader(http.StatusUnauthorized)
-		json.NewEncoder(w).Encode(response)
+	} else {
+		response = models.User{
+			Name:  loginUser.Name,
+			Token: loginUser.Token,
+		}
+		w.WriteHeader(http.StatusOK)
 	}
+	json.NewEncoder(w).Encode(response)
 }

@@ -33,7 +33,8 @@ Parâmetros:
 Exemplo de resposta de sucesso:
 ```json
 {
-    "id": 123,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
     "name": "Gopher",
     "token": "skjdfihs@#nsdj&jsdnfspai239uwe"
 }
@@ -66,7 +67,8 @@ Parâmetros:
 Exemplo de resposta:
 ```json
 {
-    "id": 123,
+    "created_at": "0001-01-01T00:00:00Z",
+    "updated_at": "0001-01-01T00:00:00Z",
     "name": "Gopher",
     "token": "skjdfihs@#nsdj&jsdnfspai239uwe"
 }
@@ -85,6 +87,8 @@ Exemplo de resposta:
 ```json
 {
     "id": 123,
+    "created_at": "2017-09-26T00:46:43.185414607-03:00",
+    "updated_at": "2017-09-26T00:46:43.185414607-03:00",
     "name": "Gopher",
     "email": "gopher@golang.com",
     "cpf": "123.456.789-00",
@@ -110,12 +114,14 @@ Exemplo de resposta de sucesso:
     {
         "id": 1,
         "liter": "2",
-        "month": "09/2017"
+        "month": "09",
+        "year": "2017"
     },
     {
         "id": 2,
         "liter": "2",
-        "month": "08/2017"
+        "month": "08",
+        "year": "2017"
     }
 ]
 ```

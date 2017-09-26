@@ -1,8 +1,20 @@
-hash: 92fa62f72c59eafeb83c7400afd05e76f0755d524d840e803c885b1d2a0b8440
-updated: 2017-09-07T01:28:46.756989325-03:00
+hash: 011a61151c29ae618cdf6084c7a4a4e4530b40437c88781a6eb35549bf8098e8
+updated: 2017-09-23T15:02:58.005049526-03:00
 imports:
 - name: github.com/gorilla/context
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/gorilla/mux
-  version: bcd8bc72b08df0f70df986b97f95590779502d31
+  version: 24fca303ac6da784b9e8269f724ddeb0b2eea5e7
+- name: github.com/jinzhu/gorm
+  version: 5174cc5c242a728b435ea2be8a2f7f998e15429b
+  subpackages:
+  - dialects/sqlite
+- name: github.com/jinzhu/inflection
+  version: 1c35d901db3da928c72a72d8458480cc9ade058f
+- name: github.com/mattn/go-sqlite3
+  version: 05548ff55570cdb9ac72ff4a25a3b5e77a6fb7e5
+- name: golang.org/x/net
+  version: 0744d001aa8470aaa53df28d32e5ceeb8af9bd70
+  subpackages:
+  - context
 testImports: []
