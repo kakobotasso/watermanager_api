@@ -42,7 +42,9 @@ func main() {
 	router.HandleFunc(fmt.Sprintf("%s/user/{userId}", prefix()), env.GetUser).Methods("GET").Name("Get User")
 	router.HandleFunc(fmt.Sprintf("%s/user", prefix()), env.CreateUser).Methods("POST").Name("Create User")
 	router.HandleFunc(fmt.Sprintf("%s/signin", prefix()), env.SignIn).Methods("POST").Name("Sign In")
-	router.HandleFunc(fmt.Sprintf("%s/consumption/{consumption_type}", prefix()), env.GetConsumption).Methods("GET").Name("Get Consumption")
+	router.HandleFunc(fmt.Sprintf("%s/consumption", prefix()), env.CreateConsumption).Methods("POST").Name("Create Consumption")
+	router.HandleFunc(fmt.Sprintf("%s/consumption/{serial}/{consumption_type}", prefix()), env.GetConsumption).Methods("GET").Name("Get Consumption")
+	router.HandleFunc(fmt.Sprintf("%s/consumption/average/{serial}/{consumption_type}", prefix()), env.GetConsumptionAverage).Methods("GET").Name("Get Consumption Average")
 
 	log.Fatal(http.ListenAndServe(port, router))
 }

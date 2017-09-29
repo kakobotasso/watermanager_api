@@ -63,6 +63,7 @@ Parâmetros:
 | cpf              | `string`       | 123.456.789-00        |
 | username         | `string`       | gopher                |
 | password         | `string`       | 123456                |
+| serial           | `string`       | 123aosdna423          |
 
 Exemplo de resposta:
 ```json
@@ -94,18 +95,55 @@ Exemplo de resposta:
     "cpf": "123.456.789-00",
     "username": "gopher",
     "password": "123456",
-    "token": "skjdfihs@#nsdj&jsdnfspai239uwe"
+    "token": "skjdfihs@#nsdj&jsdnfspai239uwe",
+    "serial": "123aosdna423"
 }
 ```
 
 ### Consumo
-#### Lista de consumo [GET /v1/consumption/:consumption_type]
+#### Criação de consumo [POST /v1/consumption]
+Cria um novo consumo
+
+Parâmetros:
+
+| Parâmetro        | Tipo           | Exemplo               |
+| ---------------- |:--------------:| ---------------------:|
+| liter            | `int`          | 12                    |
+| month            | `int`          | 09                    |
+| year             | `int`          | 2017                  |
+| serial           | `string`       | 123aosdna423          |
+
+Exemplo de resposta:
+```json
+{
+    "id": 1,
+    "liter": "2",
+    "created_at": "2017-09-29T00:50:53.72423515-03:00",
+    "updated_at": "2017-09-29T00:50:53.72423515-03:00",
+    "month": "09",
+    "year": "2017",
+    "serial": "123aosdna423"   
+}
+```
+
+Exemplo de resposta de falha:
+```json
+[
+    {
+        "key": "consumption_create_failure",
+        "message": "Unable to create a new consumption"
+    }
+]
+```
+
+#### Lista de consumo [GET /v1/consumption/:serial/:consumption_type]
 Recupera uma lista de com o consumo do usuário
 
 Parâmetros:
 
 | Parâmetro                | Tipo           | Exemplo         |
 | ------------------------ |:--------------:| ---------------:|
+| serial                   | `string`       | 123aosdna423    |
 | consumption_type         | `string`       | liter / money   |
 
 Exemplo de resposta de sucesso:
@@ -113,15 +151,65 @@ Exemplo de resposta de sucesso:
 [
     {
         "id": 1,
+        "created_at": "2017-09-29T00:50:53.72423515-03:00",
+        "updated_at": "2017-09-29T00:50:53.72423515-03:00",
         "liter": "2",
         "month": "09",
-        "year": "2017"
+        "year": "2017",
+        "serial": "123aosdna423"
     },
     {
         "id": 2,
+        "created_at": "2017-09-29T00:50:53.72423515-03:00",
+        "updated_at": "2017-09-29T00:50:53.72423515-03:00",
         "liter": "2",
         "month": "08",
-        "year": "2017"
+        "year": "2017",
+        "serial": "123aosdna423"
+    }
+]
+```
+
+Exemplo de resposta de falha:
+```json
+[
+    {
+        "key": "invalid_parameter",
+        "message": "Invalid type of consumption"
+    }
+]
+```
+
+#### Lista de média de consumo mensal [GET /v1/consumption/average/:serial/:consumption_type]
+Recupera uma lista de com o consumo do usuário
+
+Parâmetros:
+
+| Parâmetro                | Tipo           | Exemplo         |
+| ------------------------ |:--------------:| ---------------:|
+| serial                   | `string`       | 123aosdna423    |
+| consumption_type         | `string`       | liter / money   |
+
+Exemplo de resposta de sucesso:
+```json
+[
+    {
+        "id": 1,
+        "created_at": "2017-09-29T00:50:53.72423515-03:00",
+        "updated_at": "2017-09-29T00:50:53.72423515-03:00",
+        "liter": "2",
+        "month": "09",
+        "year": "2017",
+        "serial": "123aosdna423"
+    },
+    {
+        "id": 2,
+        "created_at": "2017-09-29T00:50:53.72423515-03:00",
+        "updated_at": "2017-09-29T00:50:53.72423515-03:00",
+        "liter": "2",
+        "month": "08",
+        "year": "2017",
+        "serial": "123aosdna423"
     }
 ]
 ```

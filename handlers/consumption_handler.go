@@ -2,7 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/kakobotasso/watermanager/models"
@@ -11,110 +15,114 @@ import (
 func (e Env) GetConsumption(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	consumptionType := vars["consumption_type"]
+	serialNumber := vars["serial"]
+	var consumptionList []models.Consumption
+
 	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
 	var response interface{}
 
-	if consumptionType == "liter" {
-		w.WriteHeader(http.StatusOK)
-		// response = models.ConsumptionList{
-		// 	models.Consumption{
-		// 		Id:    1,
-		// 		Liter: "2",
-		// 		Month: "09",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    2,
-		// 		Liter: "2",
-		// 		Month: "08",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    3,
-		// 		Liter: "3",
-		// 		Month: "07",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    4,
-		// 		Liter: "5",
-		// 		Month: "06",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    5,
-		// 		Liter: "2",
-		// 		Month: "05",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    6,
-		// 		Liter: "1",
-		// 		Month: "04",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    7,
-		// 		Liter: "3",
-		// 		Month: "03",
-		// 		Year:  "2017",
-		// 	},
-		// }
-	} else if consumptionType == "money" {
-		w.WriteHeader(http.StatusOK)
-		// response = models.ConsumptionList{
-		// 	models.Consumption{
-		// 		Id:    1,
-		// 		Liter: "R$ 0,20",
-		// 		Month: "09",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    2,
-		// 		Liter: "R$ 0,20",
-		// 		Month: "08",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    3,
-		// 		Liter: "R$ 0,30",
-		// 		Month: "07",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    4,
-		// 		Liter: "R$ 0,50",
-		// 		Month: "06",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    5,
-		// 		Liter: "R$ 0,20",
-		// 		Month: "05",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    6,
-		// 		Liter: "R$ 0,10",
-		// 		Month: "04",
-		// 		Year:  "2017",
-		// 	},
-		// 	models.Consumption{
-		// 		Id:    7,
-		// 		Liter: "R$ 0,30",
-		// 		Month: "03",
-		// 		Year:  "2017",
-		// 	},
-		// }
-	} else {
-		w.WriteHeader(http.StatusBadRequest)
+	if err := e.DB.Where(&models.Consumption{Serial: serialNumber}).Find(&consumptionList).Error; err != nil {
 		response = models.Errors{
 			models.Error{
-				Key:     "invalid_parameter",
-				Message: "Invalid type of consumption",
+				Key:     "not_found",
+				Message: "Consumption not found",
 			},
+		}
+	} else {
+		w.WriteHeader(http.StatusOK)
+		if consumptionType == "liter" {
+			response = &consumptionList
+		} else if consumptionType == "money" {
+			response = convertLitersToPrice(consumptionList)
+		} else {
+			w.WriteHeader(http.StatusBadRequest)
+			response = models.Errors{
+				models.Error{
+					Key:     "invalid_parameter",
+					Message: "Invalid type of consumption",
+				},
+			}
+		}
+		json.NewEncoder(w).Encode(response)
+	}
+}
+
+//TODO: This method have some errors on response
+func (e Env) GetConsumptionAverage(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	consumptionType := vars["consumption_type"]
+	serialNumber := vars["serial"]
+	var consumptionList []models.Consumption
+
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+	var response interface{}
+
+	query := fmt.Sprintf("SELECT ID, Month, Year, AVG(Liter) as Liter, Serial FROM consumptions WHERE Serial = '%s' GROUP BY Month, Year;", serialNumber)
+	if err := e.DB.Raw(query).Scan(&consumptionList).Error; err != nil {
+		response = models.Errors{
+			models.Error{
+				Key:     "not_found",
+				Message: "Consumption not found",
+			},
+		}
+	} else {
+		w.WriteHeader(http.StatusOK)
+		if consumptionType == "liter" {
+			response = &consumptionList
+		} else if consumptionType == "money" {
+			response = convertLitersToPrice(consumptionList)
+		} else {
+			w.WriteHeader(http.StatusBadRequest)
+			response = models.Errors{
+				models.Error{
+					Key:     "invalid_parameter",
+					Message: "Invalid type of consumption",
+				},
+			}
+		}
+		json.NewEncoder(w).Encode(response)
+	}
+}
+
+func (e Env) CreateConsumption(w http.ResponseWriter, r *http.Request) {
+	var consumption models.Consumption
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+	if err != nil {
+		panic(err)
+	}
+
+	if err := r.Body.Close(); err != nil {
+		panic(err)
+	}
+
+	if err := json.Unmarshal(body, &consumption); err != nil {
+		w.WriteHeader(http.StatusUnprocessableEntity)
+
+		if err := json.NewEncoder(w).Encode(err); err != nil {
+			panic(err)
 		}
 	}
 
+	e.DB.Create(&consumption)
+
+	response := &consumption
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(response)
+}
+
+func convertLitersToPrice(consumptionList []models.Consumption) []models.Consumption {
+	var returnList []models.Consumption
+	for _, consumption := range consumptionList {
+		oldLiter, _ := strconv.ParseFloat(consumption.Liter, 64)
+		newConsumption := models.Consumption{
+			Liter:  fmt.Sprintf("R$ %[1]f", (oldLiter * 0.005)),
+			Month:  consumption.Month,
+			Year:   consumption.Year,
+			Serial: consumption.Serial,
+		}
+		returnList = append(returnList, newConsumption)
+	}
+	return returnList
 }

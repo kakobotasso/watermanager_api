@@ -8,6 +8,7 @@ type User struct {
 	Username string `gorm:"unique" json:"username,omitempty"`
 	Password string `json:"password,omitempty"`
 	Token    string `json:"token,omitempty"`
+	Serial   string `json:"serial,omitempty"`
 }
 
 type Users []User
