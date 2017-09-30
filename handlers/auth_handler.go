@@ -43,8 +43,9 @@ func (e Env) SignIn(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 	} else {
 		response = models.User{
-			Name:  loginUser.Name,
-			Token: loginUser.Token,
+			Name:   loginUser.Name,
+			Token:  loginUser.Token,
+			Serial: loginUser.Serial,
 		}
 		w.WriteHeader(http.StatusOK)
 	}

@@ -36,7 +36,8 @@ Exemplo de resposta de sucesso:
     "created_at": "0001-01-01T00:00:00Z",
     "updated_at": "0001-01-01T00:00:00Z",
     "name": "Gopher",
-    "token": "skjdfihs@#nsdj&jsdnfspai239uwe"
+    "token": "skjdfihs@#nsdj&jsdnfspai239uwe",
+    "serial": "123aosdna423"
 }
 ```
 
