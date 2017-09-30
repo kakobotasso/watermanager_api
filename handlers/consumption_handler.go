@@ -119,6 +119,59 @@ func (e Env) GetEstimatedConsumption(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (e Env) GetEstimatedConsumptionMonthly(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	consumptionType := vars["consumption_type"]
+	serialNumber := vars["serial"]
+	var estimated []models.Consumption
+	var consumptionList []models.Consumption
+
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+	var response interface{}
+
+	query := fmt.Sprintf("SELECT ID, Month, Year, AVG(Liter) as liter, Serial FROM consumptions WHERE Serial = '%s' ORDER BY id DESC LIMIT 30;", serialNumber)
+	if err := e.DB.Raw(query).Scan(&estimated).Error; err != nil {
+		response = models.Errors{
+			models.Error{
+				Key:     "not_found",
+				Message: "Consumption not found",
+			},
+		}
+	} else {
+		query := fmt.Sprintf("SELECT ID, Month, Year, SUM(Liter) as liter, Serial FROM consumptions WHERE Serial = '%s' GROUP BY Month, Year;", serialNumber)
+		if err := e.DB.Raw(query).Scan(&consumptionList).Error; err != nil {
+			response = models.Errors{
+				models.Error{
+					Key:     "not_found",
+					Message: "Consumption not found",
+				},
+			}
+		} else {
+			w.WriteHeader(http.StatusOK)
+			if consumptionType == "liter" {
+				response = models.ConsumptionApp{
+					Estimated:       estimated,
+					ConsumptionList: consumptionList,
+				}
+			} else if consumptionType == "money" {
+				response = models.ConsumptionApp{
+					Estimated:       convertLitersToPrice(estimated),
+					ConsumptionList: convertLitersToPrice(consumptionList),
+				}
+			} else {
+				w.WriteHeader(http.StatusBadRequest)
+				response = models.Errors{
+					models.Error{
+						Key:     "invalid_parameter",
+						Message: "Invalid type of consumption",
+					},
+				}
+			}
+			json.NewEncoder(w).Encode(response)
+		}
+	}
+}
+
 func (e Env) CreateConsumption(w http.ResponseWriter, r *http.Request) {
 	var consumption models.Consumption
 	w.Header().Set("Content-Type", "application/json;charset=UTF-8")

@@ -8,4 +8,7 @@ type Consumption struct {
 	Serial string `json:"serial,omitempty"`
 }
 
-type ConsumptionList []Consumption
+type ConsumptionApp struct {
+	Estimated       []Consumption `json:"estimated, omitempty"`
+	ConsumptionList []Consumption `json:"consumption_list, omitempty"`
+}

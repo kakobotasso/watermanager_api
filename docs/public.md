@@ -249,3 +249,53 @@ Exemplo de resposta de falha:
     }
 ]
 ```
+
+#### Consumo estimado e mensal [GET /v1/consumption/monthly/estimated/:serial/:consumption_type]
+Recupera a estimativa de consumo do usuário e seu consumo mensal
+
+Parâmetros:
+
+| Parâmetro                | Tipo           | Exemplo         |
+| ------------------------ |:--------------:| ---------------:|
+| serial                   | `string`       | 123aosdna423    |
+| consumption_type         | `string`       | liter / money   |
+
+Exemplo de resposta de sucesso:
+```json
+[
+    {
+        "estimated": [
+            {
+                "id": 1,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "liter": "2",
+                "month": "9",
+                "year": "2017",
+                "serial": "123aosdna423"
+            }
+        ],
+        "consumption_list": [
+            {
+                "id": 1,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "liter": "2",
+                "month": "9",
+                "year": "2017",
+                "serial": "123aosdna423"
+            }
+        ]
+    }
+]
+```
+
+Exemplo de resposta de falha:
+```json
+[
+    {
+        "key": "invalid_parameter",
+        "message": "Invalid type of consumption"
+    }
+]
+```
