@@ -45,6 +45,7 @@ func main() {
 	router.HandleFunc(fmt.Sprintf("%s/consumption", prefix()), env.CreateConsumption).Methods("POST").Name("Create Consumption")
 	router.HandleFunc(fmt.Sprintf("%s/consumption/{serial}/{consumption_type}", prefix()), env.GetConsumption).Methods("GET").Name("Get Consumption")
 	router.HandleFunc(fmt.Sprintf("%s/consumption/monthly/{serial}/{consumption_type}", prefix()), env.GetConsumptionMonthly).Methods("GET").Name("Get Consumption Monthly")
+	router.HandleFunc(fmt.Sprintf("%s/consumption/estimated/{serial}/{consumption_type}", prefix()), env.GetEstimatedConsumption).Methods("GET").Name("Get Estimated Consumption")
 
 	log.Fatal(http.ListenAndServe(port, router))
 }

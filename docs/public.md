@@ -181,7 +181,7 @@ Exemplo de resposta de falha:
 ```
 
 #### Lista de consumo mensal [GET /v1/consumption/monthly/:serial/:consumption_type]
-Recupera uma lista de com o consumo do usuário
+Recupera uma lista de com o consumo mensal do usuário
 
 Parâmetros:
 
@@ -208,6 +208,31 @@ Exemplo de resposta de sucesso:
         "updated_at": "2017-09-29T00:50:53.72423515-03:00",
         "liter": "2",
         "month": "08",
+        "year": "2017",
+        "serial": "123aosdna423"
+    }
+]
+```
+
+#### Consumo estimado [GET /v1/consumption/estimated/:serial/:consumption_type]
+Recupera a estimativa de consumo do usuário
+
+Parâmetros:
+
+| Parâmetro                | Tipo           | Exemplo         |
+| ------------------------ |:--------------:| ---------------:|
+| serial                   | `string`       | 123aosdna423    |
+| consumption_type         | `string`       | liter / money   |
+
+Exemplo de resposta de sucesso:
+```json
+[
+    {
+        "id": 1,
+        "created_at": "2017-09-29T00:50:53.72423515-03:00",
+        "updated_at": "2017-09-29T00:50:53.72423515-03:00",
+        "liter": "2",
+        "month": "09",
         "year": "2017",
         "serial": "123aosdna423"
     }
