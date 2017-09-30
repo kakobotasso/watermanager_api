@@ -180,7 +180,7 @@ Exemplo de resposta de falha:
 ]
 ```
 
-#### Lista de média de consumo mensal [GET /v1/consumption/average/:serial/:consumption_type]
+#### Lista de consumo mensal [GET /v1/consumption/monthly/:serial/:consumption_type]
 Recupera uma lista de com o consumo do usuário
 
 Parâmetros:

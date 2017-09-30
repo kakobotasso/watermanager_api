@@ -47,8 +47,7 @@ func (e Env) GetConsumption(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//TODO: This method have some errors on response
-func (e Env) GetConsumptionAverage(w http.ResponseWriter, r *http.Request) {
+func (e Env) GetConsumptionMonthly(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	consumptionType := vars["consumption_type"]
 	serialNumber := vars["serial"]
@@ -57,7 +56,7 @@ func (e Env) GetConsumptionAverage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
 	var response interface{}
 
-	query := fmt.Sprintf("SELECT ID, Month, Year, AVG(Liter) as Liter, Serial FROM consumptions WHERE Serial = '%s' GROUP BY Month, Year;", serialNumber)
+	query := fmt.Sprintf("SELECT ID, Month, Year, SUM(Liter) as liter, Serial FROM consumptions WHERE Serial = '%s' GROUP BY Month, Year;", serialNumber)
 	if err := e.DB.Raw(query).Scan(&consumptionList).Error; err != nil {
 		response = models.Errors{
 			models.Error{
