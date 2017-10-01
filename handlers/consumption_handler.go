@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/kakobotasso/watermanager/models"
@@ -192,6 +193,11 @@ func (e Env) CreateConsumption(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 	}
+
+	year, month, _ := time.Now().Date()
+
+	consumption.Month = fmt.Sprintf("%d", month)
+	consumption.Year = fmt.Sprintf("%d", year)
 
 	e.DB.Create(&consumption)
 

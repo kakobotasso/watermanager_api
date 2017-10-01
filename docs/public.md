@@ -110,8 +110,6 @@ Parâmetros:
 | Parâmetro        | Tipo           | Exemplo               |
 | ---------------- |:--------------:| ---------------------:|
 | liter            | `int`          | 12                    |
-| month            | `int`          | 09                    |
-| year             | `int`          | 2017                  |
 | serial           | `string`       | 123aosdna423          |
 
 Exemplo de resposta:
